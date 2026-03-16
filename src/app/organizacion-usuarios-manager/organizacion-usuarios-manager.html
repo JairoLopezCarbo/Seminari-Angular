@@ -1,0 +1,33 @@
+<div class="users-manager">
+  <button type="button" class="btn" (click)="toggleAddForm()">
+    {{ showAddForm ? 'Cancel' : 'Add user' }}
+  </button>
+
+  @if (showAddForm) {
+    <form [formGroup]="form" (ngSubmit)="addUsuario()" class="form-grid">
+      <input type="text" formControlName="name" placeholder="Name" />
+      <input type="email" formControlName="email" placeholder="Email" />
+      <input type="password" formControlName="password" placeholder="Password" />
+      <button type="submit" class="btn" [disabled]="loading || form.invalid">Create</button>
+    </form>
+  }
+
+  @if (errorMsg) {
+    <p class="error">{{ errorMsg }}</p>
+  }
+
+  @if (usuarios.length > 0) {
+    <ul class="users-list">
+      @for (u of usuarios; track u._id) {
+        <li>
+          <span>{{ u.name }} ({{ u.email }})</span>
+          <button type="button" class="btn delete-btn" (click)="removeUsuario(u)">
+            Remove
+          </button>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="muted">No users in this organization.</p>
+  }
+</div>

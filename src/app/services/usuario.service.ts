@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Usuario } from '../models/usuario.model';
+import { CreateUsuarioDto, Usuario } from '../models/usuario.model';
 import { environment } from '../../environments/environment';
 import { Organizacion } from '../models/organizacion.model';
 
@@ -42,6 +42,14 @@ export class UsuarioService {
     );
   }
 
+  // Creates a user with an implicit organization id from the selected organization.
+  createUsuarioInOrganizacion(organizacionId: string, payload: CreateUsuarioDto): Observable<Usuario> {
+    return this.http.post<Usuario>(
+      `${this.baseUrl}/usuarios`,
+      { ...payload, organizacion: organizacionId }
+    );
+  }
+
   //Función: actualizar usuario existente
   updateUsuario(id: string, name: string, email: string, password: string, organizacion: string): Observable<Usuario> {
     return this.http.put<Usuario>(
@@ -54,6 +62,14 @@ export class UsuarioService {
   deleteUsuario(id: string): Observable<void> {
     return this.http.delete<void>(
       `${this.baseUrl}/usuarios/${id}`
+    );
+  }
+
+  // UPDATE user organizacion to null
+  removeUsuarioFromOrganizacion(usuario: Usuario): Observable<void> {
+    return this.http.put<void>(
+      `${this.baseUrl}/usuarios/${usuario._id}`,
+      { name: usuario.name, email: usuario.email, password: usuario.password, organizacion: null }
     );
   }
 }

@@ -1,0 +1,42 @@
+.users-manager {
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.users-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.users-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.muted {
+  color: #666;
+  font-size: 12px;
+}
+
+.error {
+  color: #b00020;
+  margin: 0;
+}
+
+.delete-btn {
+  margin-left: 8px;
+}

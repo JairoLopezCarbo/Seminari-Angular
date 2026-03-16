@@ -5,12 +5,13 @@ import { Organizacion } from '../models/organizacion.model';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog';
+import { OrganizacionUsuariosManager } from '../organizacion-usuarios-manager/organizacion-usuarios-manager';
 
 
 @Component({
   selector: 'app-organizacion-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatDialogModule],
+  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, OrganizacionUsuariosManager],
   templateUrl: './organizacion-list.html',
   styleUrls: ['./organizacion-list.css'],
 })
@@ -25,6 +26,7 @@ export class OrganizacionList implements OnInit {
   editando = false;
   organizacionEditId: string | null = null;
   expanded: { [key: string]: boolean } = {};
+  detailExpanded: { [key: string]: boolean } = {};
   limite = 10;
   mostrarTodasOrganizaciones = false;
   
@@ -143,6 +145,16 @@ export class OrganizacionList implements OnInit {
   //estado de expansión para mostrar el nombre completo
   toggleExpand(id: string): void {
     this.expanded[id] = !this.expanded[id];
+  }
+
+  // Toggles the organization detail section with users.
+  toggleDetail(id: string): void {
+    this.detailExpanded[id] = !this.detailExpanded[id];
+  }
+
+  // Refreshes organizations and keeps user dropdown synchronized after add/remove.
+  onUsersChanged(): void {
+    this.load();
   }
 
   //Función: resetear formulario
